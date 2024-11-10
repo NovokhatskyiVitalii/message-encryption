@@ -1,0 +1,17 @@
+body {
+    min-height: 100vh;
+    font-family: "Courier Now", sans-serif;
+    @include fade-in;
+    background: $primary-10;
+}
+.app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.container {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
