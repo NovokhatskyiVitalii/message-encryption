@@ -1,0 +1,85 @@
+.main-content__list-dropdown {
+    position: relative;
+    max-width: 400px;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__button {
+        @include button($primary-10, 100px);
+        border: $primary-40 2px solid;
+        cursor: pointer;
+        @include color-text($primary-20, $primary-30);
+        column-gap: 20px;
+        font-size: 14px;
+        z-index: 2;
+        overflow: hidden;
+
+        & i svg {
+            @include bounce;
+        }
+
+        &:hover {
+            & i {
+                transform: rotate(-90deg);
+            }
+            & svg {
+                @include bounce;
+            }
+        }
+        & i {
+            transition: transform 0.3s ease-in;
+            display: flex;
+        }
+
+        span.selected {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
+
+    &__menu {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        width: 90%;
+        top: 50px;
+        z-index: 1;
+        border: $primary-40 2px solid;
+        background: $primary-10;
+        padding-top: 10px;
+        border-radius: 0 0 20px 20px;
+        overflow: hidden;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease-in;
+
+        &.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        & li {
+            @include color-text($primary-20, $primary-30);
+            font-size: 18px;
+            text-align: right;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            height: 60px;
+            padding: 0 20px;
+            transition: 0.3s ease-in;
+            text-transform: uppercase;
+            cursor: pointer;
+
+            &:hover {
+                background: $primary-30;
+                color: $primary-10;
+            }
+        }
+    }
+}

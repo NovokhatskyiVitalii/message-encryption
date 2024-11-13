@@ -1,11 +1,11 @@
 body {
     min-height: 100vh;
-    font-family: "Courier Now", sans-serif;
+    font-family: "OCR A Std", sans-serif;
     @include fade-in;
     background: $primary-10;
 }
 .app {
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }

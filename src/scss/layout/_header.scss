@@ -19,6 +19,7 @@
         width: 100%;
         max-width: 360px;
         padding: 0 10px;
+
         &__list {
             position: absolute;
             left: 0;
@@ -31,7 +32,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                @include color-text;
+                @include color-text($primary-20, $primary-30);
             }
             &-item:first-child {
                 text-shadow: none;

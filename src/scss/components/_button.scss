@@ -1,0 +1,38 @@
+.encryption {
+    @include button(transparent, 100px);
+    @include color-text($primary-20, $primary-30);
+    border: 2px $primary-20 solid;
+    flex: 1;
+    margin: 0 auto;
+
+    &:hover {
+        color: $primary-10;
+        &::before {
+            background-color: $primary-20;
+        }
+    }
+}
+.copy {
+    @include button(transparent, 100px);
+    @include color-text($primary-20, $primary-30);
+    border: 2px $primary-20 solid;
+    flex: 1 1 45%;
+    &:hover {
+        color: $primary-10;
+        &::before {
+            background-color: $primary-20;
+        }
+    }
+}
+.clear {
+    @include button(transparent, 100px);
+    @include color-text($primary-0, $primary-0);
+    border: 2px $primary-0 solid;
+    flex: 1 1 45%;
+    &:hover {
+        color: $primary-10;
+        &::before {
+            background-color: $primary-0;
+        }
+    }
+}

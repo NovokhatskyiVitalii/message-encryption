@@ -1,5 +1,5 @@
-const list = document.querySelector("[header-list]");
-const items = document.querySelectorAll("[header-list-item]");
+const list = document.querySelector('[header-list]');
+const items = document.querySelectorAll('[header-list-item]');
 
 const state = {
   currentIndex: 0,
@@ -7,8 +7,8 @@ const state = {
 };
 
 function scrollItems() {
-  let { currentIndex, scrollDirection } = state;
-  list.style.transition = "transform 0.6s ease-in";
+  let {currentIndex, scrollDirection} = state;
+  list.style.transition = 'transform 0.6s ease-in';
   list.style.transform = `translateY(-${currentIndex * 40}px)`;
 
   currentIndex += scrollDirection;
@@ -28,6 +28,6 @@ function initApp() {
   setInterval(scrollItems, 2500);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
   initApp();
 });

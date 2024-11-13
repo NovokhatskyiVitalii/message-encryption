@@ -1,0 +1,8 @@
+{
+  "htmlWhitespaceSensitivity": "ignore",
+  "singleQuote": true,
+  "semi": true,
+  "trailingComma": "es5",
+  "printWidth": 120,
+  "bracketSpacing": false
+}

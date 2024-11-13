@@ -1,3 +1,61 @@
 .main {
     flex: 1;
+    align-content: center;
+
+    .container {
+        max-width: 800px;
+    }
+
+    &-content {
+        &__input {
+            position: relative;
+            margin-top: 60px;
+
+            &-title {
+                @include titleLabel;
+
+                &.active {
+                    top: -40px;
+                }
+            }
+
+            & textarea {
+                @include textarea;
+            }
+        }
+
+        &__output {
+            margin-top: 50px;
+            position: relative;
+
+            &-title {
+                @include titleLabel;
+                &.active {
+                    top: -40px;
+                }
+            }
+
+            & textarea {
+                @include textarea;
+            }
+        }
+
+        &__controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+
+            &-one {
+                flex: 1 1 51%;
+            }
+
+            &-two {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                flex: 1 1 45%;
+            }
+        }
+    }
 }

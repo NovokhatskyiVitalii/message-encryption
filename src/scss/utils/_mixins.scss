@@ -1,3 +1,101 @@
+@mixin button($bg-color, $border-radius: 6px) {
+    position: relative;
+    background-color: $bg-color;
+    border-radius: $border-radius;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s ease-in;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    column-gap: 5px;
+    width: 100%;
+    height: 60px;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-family: "OCR A Std", sans-serif;
+    overflow: hidden;
+    &:active {
+        transform: translateY(4px);
+    }
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        background-color: $bg-color;
+        border-radius: $border-radius;
+        transition: width 0.3s ease-in;
+        z-index: -1;
+    }
+
+    &:hover {
+        &::before {
+            width: 100%;
+        }
+    }
+
+    &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        color: inherit;
+
+        &:hover {
+            &::before {
+                width: 0;
+            }
+        }
+    }
+}
+
+@mixin textarea {
+    background: $primary-10;
+    border: $primary-40 2px solid;
+    border-radius: 18px;
+    width: 100%;
+    resize: none;
+    height: 100px;
+    @include color-text($primary-20, $primary-30);
+    padding: 20px;
+    font-family: "OCR A Std", "Press Start 2P", sans-serif;
+    font-size: 18px;
+
+    &:focus {
+        border: $primary-20 2px solid;
+        outline: none;
+        box-shadow: 0 0 8px rgba($primary-20, 0.5);
+    }
+
+    &:active {
+        border: $primary-30 2px solid;
+    }
+
+    &:focus + label,
+    &:not(:empty) + label {
+        top: -40px;
+    }
+}
+
+@mixin color-text($color, $text-shadow) {
+    color: $color;
+    text-shadow:
+        0 0 5px $text-shadow,
+        0 0 10px $text-shadow,
+        0 0 20px $text-shadow;
+}
+
+@mixin titleLabel {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    font-size: 18px;
+    transition: 0.3s ease-in;
+    @include color-text($primary-20, $primary-30);
+}
+
 @mixin fade-in {
     @keyframes fadeIn {
         from {
@@ -24,10 +122,33 @@
     animation: fadeOut 0.6s ease-in;
 }
 
-@mixin color-text {
-    color: $primary-30;
-    text-shadow:
-        0 0 5px $primary-20,
-        0 0 10px $primary-20,
-        0 0 20px $primary-20;
+@mixin bounce {
+    @keyframes bounce {
+        0% {
+            transform: translateX(4px);
+        }
+        50% {
+            transform: translateX(0px);
+        }
+        100% {
+            transform: translateX(4px);
+        }
+    }
+
+    animation: bounce 1s infinite linear;
+}
+@mixin moveLeft {
+    @keyframes moveLeft {
+        0% {
+            transform: translateY(4px);
+        }
+        50% {
+            transform: translateY(0px);
+        }
+        100% {
+            transform: translateY(4px);
+        }
+    }
+
+    animation: moveLeft 1s infinite linear;
 }
