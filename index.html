@@ -32,8 +32,57 @@
           </div>
         </div>
       </header>
-      <main class="main"></main>
-      <footer class="footer"></footer>
+      <main class="main">
+        <div class="main-content">
+          <div class="main-content__list">
+            <div class="main-content__list-dropdown">
+              <button
+                dropdown-button
+                class="main-content__list-dropdown__button"
+              >
+                Select encryption method
+              </button>
+              <ul class="main-content__list-dropdown__menu">
+                <li data-value="option1">Emoji</li>
+                <li data-value="option2">Base64</li>
+                <li data-value="option3">Morse</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="main-content__input">
+            <textarea id="area-input">
+               <label class="main-content__input-title" for="area-input">Enter your message for encryption</label>
+            </textarea>
+          </div>
+
+          <div class="main-content__output">
+            <textarea id="area-output">
+              <label class="main-content__output-title" for="area-output">Your encrypted message</label>
+            </textarea>
+          </div>
+
+          <div class="main-content__controls">
+            <div class="main-content__controls-one">
+              <button encryption class="button">Encryption</button>
+            </div>
+            <div class="main-content__controls-two">
+              <button copy class="button">Copy</button>
+              <button clear class="button">Clear</button>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer class="footer">
+        <div class="footer-info">
+          <p>
+            2024 by
+            <a href="https://github.com/NovokhatskyiVitalii"
+              >Vitalii Novokhatskyi</a
+            >
+          </p>
+        </div>
+      </footer>
     </div>
     <script type="module" src="dist/bundle.js"></script>
   </body>

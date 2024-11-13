@@ -25,7 +25,7 @@ function scrollItems() {
 }
 
 function initApp() {
-  setInterval(scrollItems, 4000);
+  setInterval(scrollItems, 2500);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
