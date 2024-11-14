@@ -331,6 +331,7 @@ img {
 .footer-info p {
   color: #00ff00;
   text-shadow: 0 0 5px #32cd32, 0 0 10px #32cd32, 0 0 20px #32cd32;
+  text-align: center;
 }
 .footer-info p a {
   color: #00ff00;

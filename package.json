@@ -28,6 +28,7 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
+    "morse-decoder": "^4.0.1",
     "sass": "^1.80.6"
   }
 }

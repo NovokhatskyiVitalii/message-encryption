@@ -1,3 +1,6 @@
+import {encode as encodeMorse} from 'morse-decoder';
+import {emojiMap} from './emojiMap';
+
 const list = document.querySelector('[header-list]');
 const items = document.querySelectorAll('[header-list-item]');
 const inputTextarea = document.querySelector('#area-input');
@@ -9,10 +12,17 @@ const dropDownButton = dropdown.querySelector('.main-content__list-dropdown__but
 const menu = dropdown.querySelector('.main-content__list-dropdown__menu');
 const buttonText = dropdown.querySelector('.main-content__list-dropdown__button span');
 const options = menu.querySelectorAll('li');
+const inputArea = document.getElementById('area-input');
+const outputArea = document.getElementById('area-output');
+const encryptionButton = document.querySelector('[encryption]');
+const copyButton = document.querySelector('[copy]');
+const clearButton = document.querySelector('[clear]');
+const dropdownItems = document.querySelectorAll('.main-content__list-dropdown__menu li');
 
 const state = {
   currentIndex: 0,
   scrollDirection: 1,
+  selectedMethod: null,
 };
 
 function scrollItems() {
@@ -77,6 +87,84 @@ function handleTextareaFocusBlur(textarea, label) {
   });
 }
 
+function updateButtonsState() {
+  const isDisabled = !inputArea.value.trim();
+  encryptionButton.disabled = isDisabled;
+  copyButton.disabled = isDisabled || !outputArea.value.trim();
+  clearButton.disabled = isDisabled && !outputArea.value.trim();
+}
+
+function updateLabelState(textarea, label) {
+  if (textarea.value.trim() !== '') {
+    label.classList.add('active');
+  } else {
+    label.classList.remove('active');
+  }
+}
+
+function encryptionWithMorse(input) {
+  return encodeMorse(input);
+}
+
+function encryptionWithBase64(input) {
+  try {
+    const utf8input = unescape(encodeURIComponent(input));
+    return btoa(utf8input);
+  } catch {
+    return 'Error: Invalid input for Base64';
+  }
+}
+
+function encryptionWithEmoji(input) {
+  outputArea.style.textShadow = 'none';
+
+  return input
+    .split('')
+    .map((char) => emojiMap[char.toLowerCase()] || char)
+    .join('');
+}
+
+function getEncryptionMessage(method, input) {
+  switch (method) {
+    case 'morse':
+      return encryptionWithMorse(input);
+
+    case 'base64':
+      return encryptionWithBase64(input);
+
+    case 'emoji':
+      return encryptionWithEmoji(input);
+
+    default:
+      return 'Select encryption method';
+  }
+}
+
+function encryptionMessage() {
+  const input = inputArea.value.trim();
+  const method = state.selectedMethod;
+
+  const encryptedMessage = getEncryptionMessage(method, input);
+  outputArea.value = encryptedMessage;
+
+  updateLabelState(outputArea, outputLabel);
+  updateButtonsState();
+}
+
+updateLabelState(outputArea, outputLabel);
+updateButtonsState();
+
+function copyValue() {
+  outputArea.select();
+  document.execCommand('copy');
+}
+
+function clearArea() {
+  inputArea.value = '';
+  outputArea.value = '';
+  updateButtonsState();
+}
+
 function initDropDownMenu() {
   handleDropdownToggle();
   handleDropdownSelection();
@@ -89,9 +177,22 @@ function initFocusTextArea() {
 function initApp() {
   initDropDownMenu();
   initFocusTextArea();
+  updateButtonsState();
+  inputArea.addEventListener('input', updateButtonsState);
   setInterval(scrollItems, 2500);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   initApp();
+});
+
+copyButton.addEventListener('click', () => copyValue());
+clearButton.addEventListener('click', () => clearArea());
+encryptionButton.addEventListener('click', () => encryptionMessage());
+dropdownItems.forEach((item) => {
+  item.addEventListener('click', () => {
+    state.selectedMethod = item.dataset.value;
+    // document.querySelector(".main-content__list-dropdown__button span").textContent = `Method: ${selectedMethod}`;
+    updateButtonsState();
+  });
 });
