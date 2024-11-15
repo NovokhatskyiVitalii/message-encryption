@@ -77,6 +77,9 @@
     &:not(:empty) + label {
         top: -40px;
     }
+    &::selection {
+        background: $primary-90;
+    }
 }
 
 @mixin color-text($color, $text-shadow) {

@@ -1,9 +1,13 @@
+@import "simplebar/dist/simplebar.css";
+
 body {
     min-height: 100vh;
     font-family: "OCR A Std", sans-serif;
     @include fade-in;
     background: $primary-10;
+    scroll-behavior: smooth;
 }
+
 .app {
     height: 100vh;
     display: flex;

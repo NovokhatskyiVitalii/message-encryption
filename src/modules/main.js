@@ -1,5 +1,6 @@
 import {encode as encodeMorse} from 'morse-decoder';
 import {emojiMap} from './emojiMap';
+import SimpleScrollbar from 'simple-scrollbar';
 
 const list = document.querySelector('[header-list]');
 const items = document.querySelectorAll('[header-list-item]');
@@ -68,23 +69,19 @@ function handleDropdownSelection() {
 }
 
 function handleTextareaFocusBlur(textarea, label) {
-  textarea.addEventListener('focus', () => {
-    label.classList.add('active');
-  });
-
-  textarea.addEventListener('blur', () => {
-    if (textarea.value.trim() === '') {
-      label.classList.remove('active');
-    }
-  });
-
-  textarea.addEventListener('input', () => {
-    if (textarea.value.trim() !== '') {
+  const updateLabelState = () => {
+    if (textarea.value.trim() !== '' || document.activeElement === textarea) {
       label.classList.add('active');
     } else {
       label.classList.remove('active');
     }
-  });
+  };
+
+  textarea.addEventListener('focus', updateLabelState);
+  textarea.addEventListener('blur', updateLabelState);
+  textarea.addEventListener('input', updateLabelState);
+
+  updateLabelState();
 }
 
 function updateButtonsState() {
@@ -151,9 +148,6 @@ function encryptionMessage() {
   updateButtonsState();
 }
 
-updateLabelState(outputArea, outputLabel);
-updateButtonsState();
-
 function copyValue() {
   outputArea.select();
   document.execCommand('copy');
@@ -163,6 +157,8 @@ function clearArea() {
   inputArea.value = '';
   outputArea.value = '';
   updateButtonsState();
+  updateLabelState(inputArea, inputLabel);
+  updateLabelState(outputArea, outputLabel);
 }
 
 function initDropDownMenu() {
@@ -174,25 +170,31 @@ function initFocusTextArea() {
   handleTextareaFocusBlur(outputTextarea, outputLabel);
 }
 
+function initScrollItems() {
+  setInterval(scrollItems, 2500);
+}
+
+function initEventListener() {
+  copyButton.addEventListener('click', () => copyValue());
+  clearButton.addEventListener('click', () => clearArea());
+  encryptionButton.addEventListener('click', () => encryptionMessage());
+  dropdownItems.forEach((item) => {
+    item.addEventListener('click', () => {
+      state.selectedMethod = item.dataset.value;
+      updateButtonsState();
+    });
+  });
+  inputArea.addEventListener('input', updateButtonsState);
+}
+
 function initApp() {
   initDropDownMenu();
   initFocusTextArea();
+  initScrollItems();
   updateButtonsState();
-  inputArea.addEventListener('input', updateButtonsState);
-  setInterval(scrollItems, 2500);
+  initEventListener();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   initApp();
-});
-
-copyButton.addEventListener('click', () => copyValue());
-clearButton.addEventListener('click', () => clearArea());
-encryptionButton.addEventListener('click', () => encryptionMessage());
-dropdownItems.forEach((item) => {
-  item.addEventListener('click', () => {
-    state.selectedMethod = item.dataset.value;
-    // document.querySelector(".main-content__list-dropdown__button span").textContent = `Method: ${selectedMethod}`;
-    updateButtonsState();
-  });
 });

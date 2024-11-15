@@ -29,6 +29,10 @@
   },
   "dependencies": {
     "morse-decoder": "^4.0.1",
-    "sass": "^1.80.6"
+    "overlayscrollbars": "^2.10.0",
+    "perfect-scrollbar": "^1.5.6",
+    "sass": "^1.80.6",
+    "simple-scrollbar": "^0.4.0",
+    "simplebar": "^6.2.7"
   }
 }
