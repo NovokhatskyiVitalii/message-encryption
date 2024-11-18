@@ -1006,7 +1006,7 @@ img {
   text-transform: uppercase;
   cursor: pointer;
 }
-.main-content__list-dropdown__menu li:hover {
+.main-content__list-dropdown__menu li.active, .main-content__list-dropdown__menu li:hover {
   background: #32cd32;
   color: #0a0a0a;
 }

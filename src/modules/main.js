@@ -1,6 +1,7 @@
 import {encode as encodeMorse} from 'morse-decoder';
 import {emojiMap} from './emojiMap';
-import SimpleScrollbar from 'simple-scrollbar';
+import {decode as decodeMorse} from 'morse-decoder';
+import emojiRegex from 'emoji-regex';
 
 const list = document.querySelector('[header-list]');
 const items = document.querySelectorAll('[header-list-item]');
@@ -44,6 +45,14 @@ function scrollItems() {
   state.scrollDirection = scrollDirection;
 }
 
+function handleText() {
+  const isDecoding = state.selectedMethod?.startsWith('decoding-');
+  encryptionButton.textContent = isDecoding ? 'Decoding' : 'Encryption';
+
+  inputLabel.textContent = isDecoding ? 'Enter your message to decrypt' : 'Enter your message for encryption';
+  outputLabel.textContent = isDecoding ? 'Your decrypted message' : 'Your encrypted message';
+}
+
 function handleDropdownToggle() {
   dropDownButton.addEventListener('click', () => {
     menu.classList.toggle('active');
@@ -59,11 +68,24 @@ function handleDropdownToggle() {
 function handleDropdownSelection() {
   options.forEach((option) => {
     option.addEventListener('click', () => {
-      const selectedText = option.textContent;
-      buttonText.textContent = selectedText;
+      const currentActive = menu.querySelector('.active');
+      if (currentActive) {
+        currentActive.classList.remove('active');
+      }
 
+      option.classList.add('active');
+
+      const selectedText = option.textContent;
+      const selectedValue = option.dataset.value;
+
+      buttonText.textContent = selectedText;
       buttonText.classList.add('selected');
       menu.classList.remove('active');
+
+      state.selectedMethod = selectedValue;
+
+      handleText();
+      updateButtonsState();
     });
   });
 }
@@ -103,12 +125,29 @@ function encryptionWithMorse(input) {
   return encodeMorse(input);
 }
 
+function decryptionWithMorse(input) {
+  try {
+    return decodeMorse(input);
+  } catch {
+    return 'Error: Invalid Morse code';
+  }
+}
+
 function encryptionWithBase64(input) {
   try {
     const utf8input = unescape(encodeURIComponent(input));
     return btoa(utf8input);
   } catch {
     return 'Error: Invalid input for Base64';
+  }
+}
+
+function decryptionWithBase64(input) {
+  try {
+    const decoded = atob(input);
+    return decodeURIComponent(escape(decoded));
+  } catch {
+    return 'Error: Invalid Base64 string';
   }
 }
 
@@ -121,19 +160,50 @@ function encryptionWithEmoji(input) {
     .join('');
 }
 
+const reverseEmojiMap = Object.fromEntries(Object.entries(emojiMap).map(([char, emoji]) => [emoji, char]));
+
+function decryptionWithEmoji(input) {
+  const regex = emojiRegex();
+  const emojiArray = input.match(regex);
+
+  if (!emojiArray) {
+    return 'No emojis found in the input.';
+  }
+
+  const decodedMessage = emojiArray
+    .map((emojiChar) => {
+      const decodedChar = reverseEmojiMap[emojiChar];
+      if (!decodedChar) {
+        return emojiChar;
+      }
+      return decodedChar;
+    })
+    .join('');
+  return decodedMessage;
+}
+
 function getEncryptionMessage(method, input) {
   switch (method) {
     case 'morse':
       return encryptionWithMorse(input);
 
+    case 'decoding-morse':
+      return decryptionWithMorse(input);
+
     case 'base64':
       return encryptionWithBase64(input);
+
+    case 'decoding-base64':
+      return decryptionWithBase64(input);
 
     case 'emoji':
       return encryptionWithEmoji(input);
 
+    case 'decoding-emoji':
+      return decryptionWithEmoji(input);
+
     default:
-      return 'Select encryption method';
+      return 'Select method';
   }
 }
 
@@ -193,6 +263,7 @@ function initApp() {
   initScrollItems();
   updateButtonsState();
   initEventListener();
+  handleDropdownSelection();
 }
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -76,6 +76,7 @@
             text-transform: uppercase;
             cursor: pointer;
 
+            &.active,
             &:hover {
                 background: $primary-30;
                 color: $primary-10;
